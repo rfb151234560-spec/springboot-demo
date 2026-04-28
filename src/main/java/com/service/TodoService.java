@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.model.Todo;
 import com.repository.TodoRepository;
@@ -15,9 +17,11 @@ public class TodoService {
 	@Autowired
 	private TodoRepository todoRepository;
 	
+	
 	public Todo createTodo(Todo todo) {
 		return todoRepository.save(todo);
 	}
+	
 	
 	public List<Todo> getAllTodos(){
 		return todoRepository.findAll();
