@@ -41,10 +41,12 @@ public class TodoService {
 	public Todo updateTodo(Long id, Todo newTodo) {
 		Todo todo = getTodoById(id);
 		todo.setTitle(newTodo.getTitle());
+		todo.setCompleted(newTodo.getCompleted()); 
 		return todoRepository.save(todo);
 	}
 	
 	  public void deleteTodo(Long id) {
+		  Todo todo = getTodoById(id);
 	        todoRepository.deleteById(id);
 	    }
 }
