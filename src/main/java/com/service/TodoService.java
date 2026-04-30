@@ -10,12 +10,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.model.Todo;
 import com.repository.TodoRepository;
+import com.exception.ResourceNotFoundException;
 
 @Service
 public class TodoService {
 
 	@Autowired
 	private TodoRepository todoRepository;
+	
+
 	
 	
 	public Todo createTodo(Todo todo) {
@@ -33,7 +36,7 @@ public class TodoService {
 		if(optional.isPresent()) {
 			return optional.get();
 		}else {
-			throw new RuntimeException("Todo not found");
+			throw new ResourceNotFoundException("Todo not found");
 		}
 				
 	}
