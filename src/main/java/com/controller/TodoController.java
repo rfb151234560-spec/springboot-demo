@@ -40,7 +40,12 @@ public class TodoController {
 	@DeleteMapping("/{id}")
 		public void delete(@PathVariable Long id) {
 			service.deleteTodo(id);
-	}	
+	}
+	
+	@GetMapping("/{id}")
+	public Todo getById(@PathVariable Long id) {
+		return service.getTodoById(id);
+	}
 	
 	}
 
