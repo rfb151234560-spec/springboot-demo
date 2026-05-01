@@ -66,6 +66,12 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        
+        <!--jakarta.validation套件-->
+        <dependency>
+    <groupId>org.springframework.boot</groupId>
+    	<artifactId>spring-boot-starter-validation</artifactId>
+	</dependency>
 
     </dependencies>
 
