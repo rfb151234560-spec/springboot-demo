@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
+
 
 import com.model.Todo;
 import com.service.TodoService;
@@ -28,12 +30,12 @@ public class TodoController {
 	}
 	
 	@PostMapping
-	public Todo create(@RequestBody Todo todo) {
+	public Todo create(@Valid @RequestBody Todo todo) {
 		return service.createTodo(todo);
 	}
 	
 	@PutMapping("/{id}")
-	public Todo update(@PathVariable Long id, @RequestBody Todo todo) {
+	public Todo update(@PathVariable Long id, @Valid @RequestBody Todo todo) {
 		return service.updateTodo(id, todo);
 	}
 	
