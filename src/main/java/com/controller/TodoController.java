@@ -3,6 +3,8 @@ package com.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,18 +32,21 @@ public class TodoController {
 	}
 	
 	@PostMapping
-	public Todo create(@Valid @RequestBody Todo todo) {
-		return service.createTodo(todo);
+	public ResponseEntity<Todo> create(@RequestBody Todo todo) {
+		Todo savedTodo = service.createTodo(todo);
+		return new ResponseEntity<>(savedTodo, HttpStatus.CREATED);
 	}
 	
 	@PutMapping("/{id}")
-	public Todo update(@PathVariable Long id, @Valid @RequestBody Todo todo) {
-		return service.updateTodo(id, todo);
+	public ResponseEntity<Todo> update(@PathVariable Long id, @RequestBody Todo todo) {
+		Todo updated = service.updateTodo(id, todo);
+		return new ResponseEntity<>(updated, HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/{id}")
-		public void delete(@PathVariable Long id) {
+		public ResponseEntity<Void> delete(@PathVariable Long id) {
 			service.deleteTodo(id);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
 	@GetMapping("/{id}")
