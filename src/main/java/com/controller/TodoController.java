@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import jakarta.validation.Valid;
 
-
+import com.dto.TodoRequest;
+import com.dto.TodoResponse;
 import com.model.Todo;
 import com.service.TodoService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/todos")
@@ -27,14 +29,14 @@ public class TodoController {
 	private TodoService service;
 	
 	@GetMapping
-	public List<Todo> getAll(){
-		return service.getAllTodos();
+	public ResponseEntity<List<TodoResponse>> getAll(){
+		return new ResponseEntity<>(service.getAllTodos(), HttpStatus.OK);
 	}
 	
 	@PostMapping
-	public ResponseEntity<Todo> create(@RequestBody Todo todo) {
-		Todo savedTodo = service.createTodo(todo);
-		return new ResponseEntity<>(savedTodo, HttpStatus.CREATED);
+	public ResponseEntity<TodoResponse> create(@Valid @RequestBody TodoRequest request) {
+		TodoResponse response = service.createTodo(request);
+		return new ResponseEntity<>(response, HttpStatus.CREATED);
 	}
 	
 	@PutMapping("/{id}")
