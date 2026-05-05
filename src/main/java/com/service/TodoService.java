@@ -1,5 +1,6 @@
 package com.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.model.Todo;
 import com.repository.TodoRepository;
+import com.dto.TodoRequest;
+import com.dto.TodoResponse;
 import com.exception.ResourceNotFoundException;
 
 @Service
@@ -21,13 +24,35 @@ public class TodoService {
 
 	
 	
-	public Todo createTodo(Todo todo) {
-		return todoRepository.save(todo);
+	public TodoResponse createTodo(TodoRequest request) {
+		
+		Todo todo = new Todo();
+		todo.setTitle(request.getTitle());
+		todo.setCompleted(request.getCompleted());
+		
+		Todo saved = todoRepository.save(todo);
+		
+		return new TodoResponse(
+				saved.getId(),
+				saved.getTitle(),
+				saved.getCompleted()
+				);
 	}
 	
 	
-	public List<Todo> getAllTodos(){
-		return todoRepository.findAll();
+	public List<TodoResponse> getAllTodos(){
+		List<Todo> todos = todoRepository.findAll();
+		
+		List<TodoResponse> result  = new ArrayList<>();
+		
+		for(Todo t : todos) {
+			result.add(new TodoResponse(
+					t.getId(),
+					t.getTitle(),
+					t.getCompleted()
+					));
+		}
+		return result;
 	}
 	
 	public Todo getTodoById(Long id) {
