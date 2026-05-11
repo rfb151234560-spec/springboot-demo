@@ -1,13 +1,12 @@
 package com.service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.model.Todo;
 import com.repository.TodoRepository;
@@ -46,19 +45,13 @@ public class TodoService {
 	}
 	
 	
-	public List<TodoResponse> getAllTodos(){
-		List<Todo> todos = todoRepository.findAll();
+	public Page <TodoResponse> getAllTodos(int page, int size){
 		
-		List<TodoResponse> result  = new ArrayList<>();
+		Pageable pageable = PageRequest.of(page, size);
 		
-		for(Todo t : todos) {
-			result.add(new TodoResponse(
-					t.getId(),
-					t.getTitle(),
-					t.getCompleted()
-					));
-		}
-		return result;
+		Page<Todo> todoPage = todoRepository.findAll(pageable);
+		
+		return todoPage.map(TodoMapper :: toResponse);
 	}
 	
 	public Todo getTodoById(Long id) {
